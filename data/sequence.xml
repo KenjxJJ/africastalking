@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+      <record id="sequence_sms" model="ir.sequence">
+        <field name="name">SMs Sequence</field>
+        <field name="code">odoo.africastalking</field>
+        <field name="prefix">SMS</field>
+        <field name="padding">5</field>
+          <field name="company_id" eval="False"/>
+      </record>
+    </data>
+</odoo>

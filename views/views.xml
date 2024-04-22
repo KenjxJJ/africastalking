@@ -1,0 +1,138 @@
+<odoo>
+ <record model="ir.ui.view" id="africastalking_company_addition">
+      <field name="name">Africastalking Company Additions</field>
+      <field name="model">res.company</field>
+      <field name="inherit_id" ref="base.view_company_form"/>
+      <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='website']" position="after">
+               <field name="app_user" placeholder="eg odoo_app"/> 
+               <field name="api_key" />
+            </xpath>
+           
+        </data>
+    </field>
+  </record>
+
+
+    <record id="africastalking_send_sms_tree_view" model="ir.ui.view">
+        <field name="name">africastalking.sms.tree</field>
+        <field name="model">odoo.africastalking</field>
+        <field name="arch" type="xml">
+            <tree default_order="create_date desc" delete="false">
+                <!-- <field name="name" /> -->
+                <field name="contact" />
+                <field name="date_send" />
+                <!-- <field name="create_uid" /> -->
+                <field name="message" />
+                <field name="response_message" groups="odoo_africastalking.group_sms_admin" />
+                <field name="state" widget="badge" 
+                                    decoration-danger="state == 'fail'"
+                                    decoration-primary="state == 'draft'"
+                                    decoration-success="state == 'sent'" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="africastalking_send_sms_form_view" model="ir.ui.view">
+        <field name="name">africastaking.sms.form</field>
+        <field name="model">odoo.africastalking</field>
+        <field name="arch" type="xml">
+            <form string="Send Sms" >
+                <header>
+                    <button class="btn btn-primary" type="object" 
+                           string="CHECK BALANCE"
+                            name="fetch_amount"
+                            />
+                    <button class="btn btn-primary" type="object" 
+                           string="SEND SMS"
+                            name="action_sending" invisible ="state == ('sent')"
+                            />
+                    <field name="state" widget="statusbar" readonly="1" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"  />
+                            <field name="phone_no"/>
+                            <field name="contact" />
+                            <field name="message" />
+                            <field name="app_name" invisible="1" />
+                            <field name="api_key" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="create_date" invisible="1" string="Created On" />
+                            <field name="date_send" readonly="1" />
+                            <field name="create_uid"  />
+                            <field name="response_message" groups="odoo_africastalking.group_sms_admin" readonly="1"/>
+                            <field name="balance" groups="odoo_africastalking.group_sms_admin" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <!-- <field name="activity_ids" widget="mail_activity"/> -->
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+  <record id="africastalking_send_sms_view_form_wizard" model="ir.ui.view">
+        <field name="name">send.sms.wizard.form</field>
+        <field name="model">odoo.africastalking.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Send Sms">
+                <group class="oe_title">
+                    <field name="partner_id" required="1" />
+                    <field name="contact" />
+                    <field name="message" required="1"/>
+                    <!-- <field name="booking_date" /> -->
+                </group>
+                <footer>
+                    <button name="action_sending" string="SEND SMS" confrim="Are you sure you want to send this SMS" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+   <record id="africastalking_send_sms_wizard_action" model="ir.actions.act_window">
+        <field name="name">Send Sms</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">odoo.africastalking.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="africastalking_send_sms_view_form_wizard"/>
+        <field name="target">new</field>
+    </record>
+   <record id="africastalking_partner_form_inherited" model="ir.ui.view">
+        <field name="name">res.partner.inherited</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet" position="before">
+                <header>
+                    <button name="%(africastalking_send_sms_wizard_action)d" class="btn btn-primary" string="SEND SMS" type="action" context="{'default_partner_id':active_id}" />
+                </header>
+            </xpath>
+        </field>
+    </record>
+    <record id="africastalking_sms_action" model="ir.actions.act_window">
+        <field name="name">SMS</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">odoo.africastalking</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+      <menuitem
+        id="africastalking_menu_root"
+        name="Odoo SMS"
+        sequence="10"/>
+      <menuitem
+        id="africastalking_menu_item"
+        name="SMS Logs"
+        action="africastalking_sms_action"
+        parent="africastalking_menu_root"
+        sequence="10"/>
+
+</odoo>

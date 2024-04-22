@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_odoo_africastalking,odoo.africastalking.odoo_africastalking,model_odoo_africastalking,base.group_user,1,1,1,1
+access_odoo_africastalking_wizard,odoo.africastalking.wizard.odoo_africastalking_wizard,model_odoo_africastalking_wizard,base.group_user,1,1,1,1
