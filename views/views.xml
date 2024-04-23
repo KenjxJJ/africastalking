@@ -21,7 +21,7 @@
         <field name="arch" type="xml">
             <tree default_order="create_date desc" delete="false">
                 <!-- <field name="name" /> -->
-                <field name="contact" />
+                <field name="contact"/>
                 <field name="date_send" />
                 <!-- <field name="create_uid" /> -->
                 <field name="message" />
@@ -56,10 +56,10 @@
                     </div>
                     <group>
                         <group>
-                            <field name="partner_id"  />
-                            <field name="phone_no"/>
+                            <field name="partner_id" placeholder="Partner's name" />
+                            <field name="phone_no" placeholder="+25677000000"/>
                             <field name="contact" />
-                            <field name="message" />
+                            <field name="message" placeholder="Place text here..."/>
                             <field name="app_name" invisible="1" />
                             <field name="api_key" invisible="1"/>
                         </group>
